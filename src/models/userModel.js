@@ -1,0 +1,39 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+    username: {
+        type: String,
+        required: [true, 'A user name is required'],
+        unique: [true, 'user name should be unique']
+    },
+    email: {
+        type: String,
+        required: [true, 'A email is required'],
+        unique: [true, 'user email should be unique']
+    },
+    password_hash: {
+        type: String,
+        required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
+    },
+    deleted_at: {
+        type: Date,
+        default: Date.now
+    },
+    is_deleted: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+module.exports = User;

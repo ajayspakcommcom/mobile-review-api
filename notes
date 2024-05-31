@@ -1,0 +1,45 @@
+my-enterprise-api-project/
+|-- node_modules/
+|-- src/
+|   |-- config/
+|   |   `-- index.js
+|   |-- controllers/
+|   |   `-- userController.js
+|   |-- middlewares/
+|   |   `-- authMiddleware.js
+|   |-- models/
+|   |   `-- userModel.js
+|   |-- routes/
+|   |   `-- userRoutes.js
+|   |-- services/
+|   |   `-- userService.js
+|   |-- utils/
+|   |   `-- errorHandler.js
+|   |-- app.js
+|   `-- server.js
+|-- test/
+|   |-- unit/
+|   |-- integration/
+|   `-- e2e/
+|-- .dockerignore
+|-- .env
+|-- .eslintrc.json
+|-- .gitignore
+|-- Dockerfile
+|-- package.json
+|-- package-lock.json
+|-- README.md
+
+
+
+
+<!-- const mongoose = require('mongoose');
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+    }); -->

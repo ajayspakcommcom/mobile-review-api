@@ -27,8 +27,14 @@ const reviewSchema = new Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },
+    is_deleted: {
+        type: Boolean,
+        default: false
     }
 });
+
+
 
 const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
 

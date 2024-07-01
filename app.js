@@ -24,15 +24,17 @@ const userRoutes = require('./src/routes/userRoute');
 const movieRoute = require('./src/routes/movieRoute');
 const notificationRoute = require('./src/routes/notificationRoute');
 const reviewRoute = require('./src/routes/reviewRoute');
+const testRoute = require('./src/routes/testRoute');
 
 
 
-
+app.use('/api', testRoute);
 app.use('/api', authRoute);
 app.use('/api', authMiddleware.verifyToken, userRoutes);
 app.use('/api', authMiddleware.verifyToken, movieRoute);
 app.use('/api', authMiddleware.verifyToken, notificationRoute);
 app.use('/api', authMiddleware.verifyToken, reviewRoute);
+
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

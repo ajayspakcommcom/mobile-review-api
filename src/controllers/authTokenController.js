@@ -8,7 +8,6 @@ exports.loginUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        // const user = await User.findOne({ email });
         const user = await User.findOne({
             $or: [{ email: email }, { username: username }]
         });

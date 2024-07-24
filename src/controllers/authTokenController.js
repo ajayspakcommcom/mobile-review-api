@@ -26,7 +26,7 @@ exports.loginUser = async (req, res) => {
 
         console.log(user);
 
-        res.status(200).json({ status: 'success', token });
+        res.status(200).json({ status: 'success', token, user: user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: 'error', message: 'Server error: Cannot authenticate user.' });

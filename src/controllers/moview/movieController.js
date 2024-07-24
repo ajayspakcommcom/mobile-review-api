@@ -1,4 +1,4 @@
-const Movie = require('../models/movieModel');
+const Movie = require('../../models/moview/movieModel');
 
 exports.getAllMovies = async (req, res) => {
     try {

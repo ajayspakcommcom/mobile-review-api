@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(cors(corsOptions));
 
-const authRoute = require('./src/routes/authRoute');
-const authMiddleware = require('./src/middlewares/authMiddleware');
+const authRoute = require('./src/routes/moview/authRoute');
+const authMiddleware = require('./src/middlewares/moview/authMiddleware');
 
-const userRoutes = require('./src/routes/userRoute');
-const movieRoute = require('./src/routes/movieRoute');
-const notificationRoute = require('./src/routes/notificationRoute');
-const reviewRoute = require('./src/routes/reviewRoute');
+const userRoutes = require('./src/routes/moview/userRoute');
+const movieRoute = require('./src/routes/moview/movieRoute');
+const notificationRoute = require('./src/routes/moview/notificationRoute');
+const reviewRoute = require('./src/routes/moview/reviewRoute');
 
 
 app.use('/api', authRoute);

@@ -1,4 +1,4 @@
-const Notification = require('../models/notificationModel');
+const Notification = require('../../models/moview/notificationModel');
 
 exports.getAllNotifications = async (req, res) => {
     try {

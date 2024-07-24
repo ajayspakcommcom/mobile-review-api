@@ -31,6 +31,7 @@ exports.createUser = async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password_hash: hashedPassword,
+            phone: req.body.phone
         });
 
         res.status(201).json({ status: 'success', data: { user: newUser } });

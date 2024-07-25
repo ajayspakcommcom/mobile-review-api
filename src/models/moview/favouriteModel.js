@@ -4,12 +4,12 @@ const Movie = require('./movieModel');
 const User = require('./userModel');
 
 const favoritesSchema = new Schema({
-    user_id: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    movie_id: {
+    movie: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',
         required: true

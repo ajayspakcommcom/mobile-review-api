@@ -1,4 +1,4 @@
-const Review = require('../../models/moview/ratingModel');
+const Review = require('../../models/moview/reviewModel');
 
 exports.getAllReviews = async (req, res) => {
     try {

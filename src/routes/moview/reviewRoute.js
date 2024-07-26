@@ -8,6 +8,8 @@ router.get('/review/:id', reviewController.getReviewById);
 
 router.get('/review/movie/:movieId', reviewController.getReviewsByMovie);
 
+router.get('/review/user/:userId', reviewController.getReviewsByUser);
+
 router.post('/review', reviewController.createReview);
 
 router.put('/review/:id', reviewController.updateReviewById);

@@ -71,8 +71,28 @@ exports.getReviewsByMovie = async (req, res) => {
         }
 
         res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
-        //res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
+exports.getReviewsByUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        // Find reviews for the movie
+        //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
+        const reviews = await Review
+            .find({ user: userId, is_deleted: false })
+            .sort({ created_at: -1 });
+
+        if (reviews.length === 0) {
+            return res.status(404).json({ message: 'No reviews found for this user' });
+        }
+
+        res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+

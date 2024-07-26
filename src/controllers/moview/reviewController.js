@@ -53,3 +53,24 @@ exports.deleteReviewById = async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the review.' });
     }
 };
+
+
+exports.getReviewsByMovie = async (req, res) => {
+    try {
+        const movieId = req.params.movieId;
+
+        // Find reviews for the movie
+        //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
+        const reviews = await Review.find({ movie: movieId, is_deleted: false }); // Populate user name, adjust fields as needed
+
+        if (reviews.length === 0) {
+            return res.status(404).json({ message: 'No reviews found for this movie' });
+        }
+
+        console.log(reviews);
+
+        res.status(200).json(reviews);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};

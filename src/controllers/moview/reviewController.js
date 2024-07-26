@@ -61,7 +61,10 @@ exports.getReviewsByMovie = async (req, res) => {
 
         // Find reviews for the movie
         //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
-        const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'firstname'); // Populate user name, adjust fields as needed
+        const reviews = await Review
+            .find({ movie: movieId, is_deleted: false })
+            .populate('user', 'firstname')
+            .sort({ created_at: 1 });
 
         if (reviews.length === 0) {
             return res.status(404).json({ message: 'No reviews found for this movie' });

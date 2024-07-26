@@ -67,9 +67,8 @@ exports.getReviewsByMovie = async (req, res) => {
             return res.status(404).json({ message: 'No reviews found for this movie' });
         }
 
-        console.log(reviews);
-
-        res.status(200).json(reviews);
+        res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
+        //res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }

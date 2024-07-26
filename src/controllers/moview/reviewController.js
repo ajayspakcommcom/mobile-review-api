@@ -64,7 +64,7 @@ exports.getReviewsByMovie = async (req, res) => {
         const reviews = await Review
             .find({ movie: movieId, is_deleted: false })
             .populate('user', 'firstname')
-            .sort({ created_at: 1 });
+            .sort({ created_at: -1 });
 
         if (reviews.length === 0) {
             return res.status(404).json({ message: 'No reviews found for this movie' });

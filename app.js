@@ -32,5 +32,5 @@ app.use('/api', authMiddleware.verifyToken, notificationRoute);
 app.use('/api', authMiddleware.verifyToken, reviewRoute);
 
 
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

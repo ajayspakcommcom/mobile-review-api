@@ -71,3 +71,43 @@ exports.deleteUserById = async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the user.' });
     }
 };
+
+
+exports.addFollower = async (req, res) => {
+    const { userId, followerId } = req.body;
+
+    if (!userId || !followerId) {
+        return res.status(400).json({ error: 'User ID and Follower ID are required' });
+    }
+
+    try {
+        // Add followerId to the user's followers array
+        await User.findByIdAndUpdate(userId, { $addToSet: { followers: followerId } });
+        // Add userId to the follower's following array
+        await User.findByIdAndUpdate(followerId, { $addToSet: { following: userId } });
+
+        return res.status(200).json({ status: 'success', message: 'Follower added successfully' });
+    } catch (error) {
+        return res.status(500).json({ status: 'error', message: error });
+    }
+};
+
+exports.removeFollower = async (req, res) => {
+    const { userId, followerId } = req.body;
+
+    if (!userId || !followerId) {
+        return res.status(400).json({ error: 'User ID and Follower ID are required' });
+    }
+
+    try {
+        // Remove followerId from the user's followers array
+        await User.findByIdAndUpdate(userId, { $pull: { followers: followerId } });
+        // Remove userId from the follower's following array
+        await User.findByIdAndUpdate(followerId, { $pull: { following: userId } });
+
+        return res.status(200).json({ status: 'success', message: 'Follower removed successfully' });
+    } catch (error) {
+        console.error('Error removing follower:', error);
+        return res.status(500).json({ status: 'error', message: error });
+    }
+};

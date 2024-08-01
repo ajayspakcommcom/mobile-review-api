@@ -81,14 +81,35 @@ exports.addFollower = async (req, res) => {
     }
 
     try {
+        // Retrieve the user documents
+        const user = await User.findById(userId);
+        const follower = await User.findById(followerId);
+
+        if (!user || !follower) {
+            return res.status(404).json({ error: 'User or Follower not found' });
+        }
+
+        // Check if the follower is already in the user's followers array
+        if (user.followers.includes(followerId)) {
+            return res.status(400).json({ error: 'User is already followed' });
+        }
+
+        // Check if the user is already in the follower's following array
+        if (follower.following.includes(userId)) {
+            return res.status(400).json({ error: 'Follower is already following the user' });
+        }
+
         // Add followerId to the user's followers array
-        await User.findByIdAndUpdate(userId, { $addToSet: { followers: followerId } });
+        user.followers.push(followerId);
+        await user.save();
+
         // Add userId to the follower's following array
-        await User.findByIdAndUpdate(followerId, { $addToSet: { following: userId } });
+        follower.following.push(userId);
+        await follower.save();
 
         return res.status(200).json({ status: 'success', message: 'Follower added successfully' });
     } catch (error) {
-        return res.status(500).json({ status: 'error', message: error });
+        return res.status(500).json({ status: 'error', message: error.message });
     }
 };
 
@@ -100,6 +121,24 @@ exports.removeFollower = async (req, res) => {
     }
 
     try {
+        // Retrieve the user documents
+        const user = await User.findById(userId);
+        const follower = await User.findById(followerId);
+
+        if (!user || !follower) {
+            return res.status(404).json({ error: 'User or Follower not found' });
+        }
+
+        // Check if the follower is in the user's followers array
+        if (!user.followers.includes(followerId)) {
+            return res.status(400).json({ error: 'User is not followed by this follower' });
+        }
+
+        // Check if the user is in the follower's following array
+        if (!follower.following.includes(userId)) {
+            return res.status(400).json({ error: 'Follower is not following the user' });
+        }
+
         // Remove followerId from the user's followers array
         await User.findByIdAndUpdate(userId, { $pull: { followers: followerId } });
         // Remove userId from the follower's following array
@@ -108,6 +147,6 @@ exports.removeFollower = async (req, res) => {
         return res.status(200).json({ status: 'success', message: 'Follower removed successfully' });
     } catch (error) {
         console.error('Error removing follower:', error);
-        return res.status(500).json({ status: 'error', message: error });
+        return res.status(500).json({ status: 'error', message: error.message });
     }
 };

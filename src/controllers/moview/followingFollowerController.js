@@ -110,3 +110,45 @@ exports.checkIfFollowing = async (req, res) => {
     }
 };
 
+exports.findFollowingByUserId = async (req, res) => {
+    const { userId } = req.params;
+
+    if (!userId) {
+        return res.status(400).json({ error: 'User Id is required' });
+    }
+
+    try {
+        const followingRecords = await Following.find({ userId: userId });
+
+        if (!followingRecords.length) {
+            return res.status(404).json({ error: 'No records found for the specified following ID' });
+        }
+
+        return res.status(200).json({ status: 'success', data: followingRecords });
+    } catch (error) {
+        console.error('Error finding following records:', error);
+        return res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+
+exports.findFollowerByUserId = async (req, res) => {
+
+    const { userId } = req.params;
+
+    if (!userId) {
+        return res.status(400).json({ error: 'User Id is required' });
+    }
+
+    try {
+        const followerRecords = await Follower.find({ userId: userId });
+
+        if (!followerRecords.length) {
+            return res.status(404).json({ error: 'No records found for the specified Follower ID' });
+        }
+
+        return res.status(200).json({ status: 'success', data: followerRecords });
+    } catch (error) {
+        console.error('Error finding following records:', error);
+        return res.status(500).json({ status: 'error', message: error.message });
+    }
+};

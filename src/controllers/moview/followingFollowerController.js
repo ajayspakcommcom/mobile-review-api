@@ -100,9 +100,9 @@ exports.checkIfFollowing = async (req, res) => {
         const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
 
         if (followerRelation && followingRelation) {
-            return res.status(200).json({ status: 'success', message: 'User is already following' });
+            return res.status(200).json({ status: 'success', message: 'User is already following', isFollowing: 1 });
         } else {
-            return res.status(200).json({ status: 'success', message: 'User is not following' });
+            return res.status(200).json({ status: 'success', message: 'User is not following', isFollowing: 0 });
         }
     } catch (error) {
         console.error('Error checking if following:', error);

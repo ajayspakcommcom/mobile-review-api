@@ -39,15 +39,7 @@ const userSchema = new Schema({
     is_deleted: {
         type: Boolean,
         default: false
-    },
-    followers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    following: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }]
+    }
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

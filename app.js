@@ -23,6 +23,7 @@ const userRoutes = require('./src/routes/moview/userRoute');
 const movieRoute = require('./src/routes/moview/movieRoute');
 const notificationRoute = require('./src/routes/moview/notificationRoute');
 const reviewRoute = require('./src/routes/moview/reviewRoute');
+const followingFollowerRoute = require('./src/routes/moview/followingFollowerRoute');
 
 
 app.use('/api', authRoute);
@@ -30,6 +31,7 @@ app.use('/api', userRoutes);
 app.use('/api', authMiddleware.verifyToken, movieRoute);
 app.use('/api', authMiddleware.verifyToken, notificationRoute);
 app.use('/api', authMiddleware.verifyToken, reviewRoute);
+app.use('/api', authMiddleware.verifyToken, followingFollowerRoute);
 
 
 const PORT = process.env.PORT || 3000;

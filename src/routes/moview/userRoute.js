@@ -12,9 +12,5 @@ router.put('/user/:id', userController.updateUserById);
 
 router.delete('/user/:id', userController.deleteUserById);
 
-router.post('/follow', userController.addFollower);
-
-router.post('/unfollow', userController.removeFollower);
-
 module.exports = router;
 

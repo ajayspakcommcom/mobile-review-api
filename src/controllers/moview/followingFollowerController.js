@@ -79,3 +79,34 @@ exports.removeFollower = async (req, res) => {
     }
 };
 
+exports.checkIfFollowing = async (req, res) => {
+    const { userId, followerId } = req.body;
+
+    if (!userId || !followerId) {
+        return res.status(400).json({ error: 'User ID and Follower ID are required' });
+    }
+
+    try {
+        // Check if the user and follower exist
+        const user = await User.findById(userId);
+        const follower = await User.findById(followerId);
+
+        if (!user || !follower) {
+            return res.status(404).json({ error: 'User or Follower not found' });
+        }
+
+        // Check if the follower relationship already exists
+        const followerRelation = await Follower.findOne({ userId, followerId });
+        const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
+
+        if (followerRelation && followingRelation) {
+            return res.status(200).json({ status: 'success', message: 'User is already following' });
+        } else {
+            return res.status(200).json({ status: 'success', message: 'User is not following' });
+        }
+    } catch (error) {
+        console.error('Error checking if following:', error);
+        return res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+

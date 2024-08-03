@@ -1,4 +1,6 @@
 const Notification = require('../../models/moview/notificationModel');
+const User = require('../../models/moview/userModel');
+const Follower = require('../../models/moview/followerModel');
 
 exports.getAllNotifications = async (req, res) => {
     try {
@@ -22,12 +24,38 @@ exports.getNotificationById = async (req, res) => {
 };
 
 exports.createNotification = async (req, res) => {
+
+    const { user_id } = req.body;
+
     try {
-        const newNotification = await Notification.create(req.body);
-        res.status(201).json({ status: 'success', data: { notification: newNotification } });
+        // Find all followers of the given user
+        const followers = await Follower.find({ userId: user_id }).populate('followerId');
+
+        // Check if there are any followers
+        if (!followers.length) {
+            return res.status(404).send('No followers found');
+        }
+
+        // Create a notification for each follower
+        const notifications = followers.map(follower => ({
+            user_id: follower.followerId._id,
+            title: "New Review Posted",
+            message: `User ${follower.followerId.username} has posted a new review.`,
+            type: "review",
+            seen: false,
+            created_at: new Date(),
+            expires_at: new Date(new Date().setDate(new Date().getDate() + 7)) // Expires in 7 days
+        }));
+
+        // Save the notifications
+        await Notification.insertMany(notifications);
+
+        res.status(200).send('Notifications sent to followers');
     } catch (error) {
-        return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the notification.' });
+        console.error('Error sending notifications:', error);
+        res.status(500).send('Internal server error');
     }
+
 };
 
 exports.updateNotificationById = async (req, res) => {

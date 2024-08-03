@@ -23,6 +23,18 @@ exports.getNotificationById = async (req, res) => {
     }
 };
 
+exports.getNotificationByFollowerId = async (req, res) => {
+    try {
+        const notification = await Notification.find({ user_id: req.params.user_id });
+        if (!notification) {
+            return res.status(404).json({ status: 'fail', message: 'No notification found with that ID' });
+        }
+        res.status(200).json({ status: 'success', data: { notification } });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve the notification.' });
+    }
+};
+
 exports.createNotification = async (req, res) => {
 
     const { user_id } = req.body;

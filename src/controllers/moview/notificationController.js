@@ -37,7 +37,7 @@ exports.getNotificationByFollowerId = async (req, res) => {
 
 exports.createNotification = async (req, res) => {
 
-    const { user_id } = req.body;
+    const { user_id, title, message } = req.body;
 
     try {
         // Find all followers of the given user
@@ -51,8 +51,8 @@ exports.createNotification = async (req, res) => {
         // Create a notification for each follower
         const notifications = followers.map(follower => ({
             user_id: follower.followerId._id,
-            title: "New Review Posted",
-            message: `User ${follower.followerId.username} has posted a new review.`,
+            title: title,
+            message: message,
             type: "review",
             seen: false,
             created_at: new Date(),

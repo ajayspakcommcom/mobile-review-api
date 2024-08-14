@@ -97,3 +97,19 @@ exports.getReviewsByUser = async (req, res) => {
     }
 };
 
+exports.getMovieRatingById = async (req, res) => {
+    try {
+
+        const movieId = req.params.movieId;
+        const movies = await Review.find({ movie: movieId, is_deleted: false });
+
+        const totalMovie = movies.length
+        const totalRating = movies.reduce((sum, review) => sum + review.rating, 0);
+        const finalRating = totalRating / totalMovie;
+
+        res.status(200).json({ status: 'success', data: finalRating });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+

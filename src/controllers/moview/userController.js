@@ -55,6 +55,7 @@ exports.updateUserById = async (req, res) => {
         if (req.body.password) {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             req.body.password = hashedPassword;
+            req.body.password_hash = req.body.password
         }
 
         // Find and update the user by ID

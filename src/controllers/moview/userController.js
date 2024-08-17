@@ -49,15 +49,29 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUserById = async (req, res) => {
+
     try {
+        // If password is provided in the request body, hash it
+        if (req.body.password) {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hashedPassword;
+        }
+
+        // Find and update the user by ID
         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        // Handle case where user is not found
         if (!user) {
             return res.status(404).json({ status: 'fail', message: 'No user found with that ID' });
         }
+
+        // Respond with updated user data
         res.status(200).json({ status: 'success', data: { user } });
     } catch (error) {
+        // Handle server errors
         res.status(500).json({ status: 'error', message: 'Server error: Cannot update the user.' });
     }
+
 };
 
 exports.deleteUserById = async (req, res) => {

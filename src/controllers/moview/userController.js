@@ -50,14 +50,20 @@ exports.createUser = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
 
-    console.log('Body', req.body);
+
 
     try {
         // If password is provided in the request body, hash it
-        if (req.body.password) {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            req.body.password = hashedPassword;
+
+        const userData = await User.findById(req.params.id);
+
+        const isOldPassword = userData.password_hash === req.body.password;
+
+        if (isOldPassword) {
             req.body.password_hash = req.body.password;
+        } else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password_hash = hashedPassword;
         }
 
         // Find and update the user by ID
@@ -72,9 +78,8 @@ exports.updateUserById = async (req, res) => {
         res.status(200).json({ status: 'success', data: { user } });
     } catch (error) {
         // Handle server errors
-        res.status(500).json({ status: 'error', message: 'Server error: Cannot update the user.' });
+        res.status(500).json({ status: 'error', message: `Server error: Cannot update the user. ${error}` });
     }
-
 };
 
 exports.deleteUserById = async (req, res) => {

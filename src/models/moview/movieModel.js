@@ -34,6 +34,9 @@ const movieSchema = new Schema({
         type: String,
         required: true
     },
+    test_poster_url: {
+        type: String
+    },
     is_deleted: {
         type: Boolean,
         default: false

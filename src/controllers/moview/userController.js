@@ -50,12 +50,14 @@ exports.createUser = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
 
+    console.log('Body', req.body);
+
     try {
         // If password is provided in the request body, hash it
         if (req.body.password) {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             req.body.password = hashedPassword;
-            req.body.password_hash = req.body.password
+            req.body.password_hash = req.body.password;
         }
 
         // Find and update the user by ID

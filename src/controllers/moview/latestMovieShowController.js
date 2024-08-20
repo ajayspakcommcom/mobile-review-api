@@ -5,10 +5,10 @@ const Movie = require('../../models/moview/movieModel');
 exports.getAllMoviesShows = async (req, res) => {
     try {
         const movies = await Movie.find({ is_deleted: false })
-            .sort({ release_date: -1 });
+            .sort({ title: 1 });
 
         const shows = await Show.find({ is_deleted: false })
-            .sort({ release_date: -1 });
+            .sort({ title: 1 });
 
         const latestMovies = movies.map(movie => ({
             ...movie._doc,

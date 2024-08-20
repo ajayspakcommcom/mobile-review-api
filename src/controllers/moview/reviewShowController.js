@@ -1,17 +1,17 @@
-const Review = require('../../models/moview/reviewModel');
+const ReviewShow = require('../../models/moview/reviewShowModel');
 
 exports.getAllReviews = async (req, res) => {
     try {
-        const reviews = await Review.find({});
+        const reviews = await ReviewShow.find({});
         res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve reviews.' });
+        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve reviews...' });
     }
 };
 
 exports.getReviewById = async (req, res) => {
     try {
-        const review = await Review.findById(req.params.id);
+        const review = await ReviewShow.findById(req.params.id);
         if (!review) {
             return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
         }
@@ -23,7 +23,7 @@ exports.getReviewById = async (req, res) => {
 
 exports.createReview = async (req, res) => {
     try {
-        const newReview = await Review.create(req.body);
+        const newReview = await ReviewShow.create(req.body);
         res.status(201).json({ status: 'success', data: { notification: newReview } });
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the review.' });
@@ -32,7 +32,7 @@ exports.createReview = async (req, res) => {
 
 exports.updateReviewById = async (req, res) => {
     try {
-        const review = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const review = await ReviewShow.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!review) {
             return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
         }
@@ -44,7 +44,7 @@ exports.updateReviewById = async (req, res) => {
 
 exports.deleteReviewById = async (req, res) => {
     try {
-        const review = await Review.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
+        const review = await ReviewShow.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!review) {
             return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
         }
@@ -55,14 +55,12 @@ exports.deleteReviewById = async (req, res) => {
 };
 
 
-exports.getReviewsByMovie = async (req, res) => {
+exports.getReviewsByShow = async (req, res) => {
     try {
-        const movieId = req.params.movieId;
+        const showId = req.params.showId;
 
-        // Find reviews for the movie
-        //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
-        const reviews = await Review
-            .find({ movie: movieId, is_deleted: false })
+        const reviews = await ReviewShow
+            .find({ show: showId, is_deleted: false })
             .populate('user', 'firstname')
             .sort({ created_at: -1 });
 
@@ -82,9 +80,9 @@ exports.getReviewsByUser = async (req, res) => {
 
         // Find reviews for the movie
         //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
-        const reviews = await Review
+        const reviews = await ReviewShow
             .find({ user: userId, is_deleted: false })
-            .populate('movie', 'title genre release_date poster_url')
+            .populate('show', 'title genre release_date poster_url')
             .sort({ created_at: -1 });
 
         if (reviews.length === 0) {
@@ -97,15 +95,15 @@ exports.getReviewsByUser = async (req, res) => {
     }
 };
 
-exports.getMovieRatingById = async (req, res) => {
+exports.getShowRatingById = async (req, res) => {
     try {
 
-        const movieId = req.params.movieId;
-        const movies = await Review.find({ movie: movieId, is_deleted: false });
+        const showId = req.params.showId;
+        const shows = await ReviewShow.find({ show: showId, is_deleted: false });
 
-        const totalMovie = movies.length
-        const totalRating = movies.reduce((sum, review) => sum + review.rating, 0);
-        const finalRating = totalRating / totalMovie;
+        const totalshow = shows.length
+        const totalRating = shows.reduce((sum, review) => sum + review.rating, 0);
+        const finalRating = totalRating / totalshow;
 
         res.status(200).json({ status: 'success', data: finalRating });
     } catch (error) {

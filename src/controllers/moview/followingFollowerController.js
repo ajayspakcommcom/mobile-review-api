@@ -141,7 +141,8 @@ exports.findFollowerByUserId = async (req, res) => {
     }
 
     try {
-        const followerRecords = await Follower.find({ userId: userId });
+        // const followerRecords = await Follower.find({ userId: userId });
+        const followerRecords = await Follower.find({ userId: userId }).populate('followerId');
 
         if (!followerRecords.length) {
             return res.status(404).json({ error: 'No records found for the specified Follower ID' });

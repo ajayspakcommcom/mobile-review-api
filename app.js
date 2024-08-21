@@ -29,6 +29,11 @@ const reviewShowRoute = require('./src/routes/moview/reviewShowRoute');
 const followingFollowerRoute = require('./src/routes/moview/followingFollowerRoute');
 const latestMovieShowRoute = require('./src/routes/moview/latestMovieShowRoute');
 
+
+const testRoute = require('./src/routes/moview/testRoute');
+app.use('/api', testRoute);
+
+
 app.use('/api', authRoute);
 app.use('/api', userRoutes);
 app.use('/api', authMiddleware.verifyToken, movieRoute);
@@ -40,6 +45,10 @@ app.use('/api', authMiddleware.verifyToken, reviewRoute);
 app.use('/api', authMiddleware.verifyToken, reviewShowRoute);
 app.use('/api', authMiddleware.verifyToken, followingFollowerRoute);
 app.use('/api', authMiddleware.verifyToken, latestMovieShowRoute);
+
+
+
+
 
 
 

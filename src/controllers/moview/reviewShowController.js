@@ -82,7 +82,7 @@ exports.getReviewsByUser = async (req, res) => {
         //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
         let reviews = await ReviewShow
             .find({ user: userId, is_deleted: false })
-            .populate('show', 'title genre release_date poster_url')
+            .populate('show', 'title genre release_date poster_url isShow')
             .sort({ created_at: -1 });
 
         reviews = reviews.map(review => ({

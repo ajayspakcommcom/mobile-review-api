@@ -6,7 +6,7 @@ router.post('/follow', followingFollowerController.addFollower);
 
 router.post('/unfollow', followingFollowerController.removeFollower);
 
-router.post('/unfollow', followingFollowerController.removeFollower);
+// router.post('/unfollow', followingFollowerController.removeFollower);
 
 router.post('/check-if-following', followingFollowerController.checkIfFollowing);
 
@@ -15,4 +15,3 @@ router.get('/following/:userId', followingFollowerController.findFollowingByUser
 router.get('/follower/:userId', followingFollowerController.findFollowerByUserId);
 
 module.exports = router;
-

@@ -73,6 +73,8 @@ exports.removeFollower = async (req, res) => {
         await Following.deleteOne({ userId: followerId, followingId: userId });
 
         return res.status(200).json({ status: 'success', message: 'Follower removed successfully' });
+
+
     } catch (error) {
         console.error('Error removing follower:', error);
         return res.status(500).json({ status: 'error', message: error.message });

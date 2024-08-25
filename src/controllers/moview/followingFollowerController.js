@@ -120,16 +120,31 @@ exports.findFollowingByUserId = async (req, res) => {
     }
 
     try {
-        // const followingRecords = await Following.find({ userId: userId });
         const followingRecords = await Following.find({ userId: userId }).populate('followingId');
 
+        const followerRecords = await Follower.find({ userId: userId }).populate('followerId');
+        const followerIds = followerRecords.map(item => item.followerId._id.toString());
 
 
-        if (!followingRecords.length) {
+
+
+        const resultData = followingRecords.map((item) => {
+            const following = followerIds.includes(item.followingId._id.toString());
+            return {
+                ...item._doc,
+                isFollowing: following ? true : false
+            }
+        });
+
+        //console.log('resultData', resultData);
+
+
+
+        if (!resultData.length) {
             return res.status(404).json({ error: 'No records found for the specified following ID' });
         }
 
-        return res.status(200).json({ status: 'success', data: followingRecords });
+        return res.status(200).json({ status: 'success', data: resultData });
     } catch (error) {
         console.error('Error finding following records:', error);
         return res.status(500).json({ status: 'error', message: error.message });

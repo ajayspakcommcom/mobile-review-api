@@ -82,7 +82,11 @@ exports.removeFollower = async (req, res) => {
 };
 
 exports.checkIfFollowing = async (req, res) => {
+
     const { userId, followerId } = req.body;
+
+    console.log('userId', userId);
+    console.log('followerId', followerId);
 
     if (!userId || !followerId) {
         return res.status(400).json({ error: 'User ID and Follower ID are required' });
@@ -98,14 +102,29 @@ exports.checkIfFollowing = async (req, res) => {
         }
 
         // Check if the follower relationship already exists
-        const followerRelation = await Follower.findOne({ userId, followerId });
-        const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
+
+        // console.log('Result', await Following.findOne({ userId: userId, followingId: followerId }));
+
+        // const followerRelation = await Follower.findOne({ userId, followerId });
+        // const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
+
+        // if (followerRelation && followingRelation) {
+        //     return res.status(200).json({ status: 'success', message: 'User is already following', isFollowing: 1 });
+        // } else {
+        //     return res.status(200).json({ status: 'success', message: 'User is not following', isFollowing: 0 });
+        // }
+
+
+
+        const followerRelation = await Follower.findOne({ userId: followerId, followerId: userId });
+        const followingRelation = await Following.findOne({ userId: userId, followingId: followerId });
 
         if (followerRelation && followingRelation) {
             return res.status(200).json({ status: 'success', message: 'User is already following', isFollowing: 1 });
         } else {
             return res.status(200).json({ status: 'success', message: 'User is not following', isFollowing: 0 });
         }
+
     } catch (error) {
         console.error('Error checking if following:', error);
         return res.status(500).json({ status: 'error', message: error.message });
@@ -137,8 +156,6 @@ exports.findFollowingByUserId = async (req, res) => {
         });
 
         //console.log('resultData', resultData);
-
-
 
         if (!resultData.length) {
             return res.status(404).json({ error: 'No records found for the specified following ID' });

@@ -43,6 +43,7 @@ exports.addFollower = async (req, res) => {
 };
 
 exports.removeFollower = async (req, res) => {
+
     const { userId, followerId } = req.body;
 
     if (!userId || !followerId) {

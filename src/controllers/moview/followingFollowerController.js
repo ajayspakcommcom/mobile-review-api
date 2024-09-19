@@ -86,8 +86,7 @@ exports.checkIfFollowing = async (req, res) => {
 
     const { userId, followerId } = req.body;
 
-    console.log('userId', userId);
-    console.log('followerId', followerId);
+
 
     if (!userId || !followerId) {
         return res.status(400).json({ error: 'User ID and Follower ID are required' });
@@ -115,10 +114,8 @@ exports.checkIfFollowing = async (req, res) => {
         //     return res.status(200).json({ status: 'success', message: 'User is not following', isFollowing: 0 });
         // }
 
-
-
-        const followerRelation = await Follower.findOne({ userId: followerId, followerId: userId });
-        const followingRelation = await Following.findOne({ userId: userId, followingId: followerId });
+        const followerRelation = await Follower.findOne({ userId: userId, followerId: followerId });
+        const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
 
         if (followerRelation && followingRelation) {
             return res.status(200).json({ status: 'success', message: 'User is already following', isFollowing: 1 });
@@ -141,12 +138,8 @@ exports.findFollowingByUserId = async (req, res) => {
 
     try {
         const followingRecords = await Following.find({ userId: userId }).populate('followingId');
-
         const followerRecords = await Follower.find({ userId: userId }).populate('followerId');
         const followerIds = followerRecords.map(item => item.followerId._id.toString());
-
-
-
 
         const resultData = followingRecords.map((item) => {
             const following = followerIds.includes(item.followingId._id.toString());

@@ -37,7 +37,7 @@ exports.getNotificationByFollowerId = async (req, res) => {
 
 exports.createNotification = async (req, res) => {
 
-    const { user_id, title, message } = req.body;
+    const { user_id, title, message, type } = req.body;
 
     try {
         // Find all followers of the given user
@@ -53,7 +53,7 @@ exports.createNotification = async (req, res) => {
             user_id: follower.followerId._id,
             title: title,
             message: message,
-            type: "review",
+            type: type,
             seen: false,
             created_at: new Date(),
             expires_at: new Date(new Date().setDate(new Date().getDate() + 7)) // Expires in 7 days
@@ -61,7 +61,6 @@ exports.createNotification = async (req, res) => {
 
         // Save the notifications
         await Notification.insertMany(notifications);
-
         res.status(200).send('Notifications sent to followers');
     } catch (error) {
         console.error('Error sending notifications:', error);

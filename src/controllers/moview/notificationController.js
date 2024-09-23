@@ -85,7 +85,7 @@ exports.updateNotificationById = async (req, res) => {
 
 exports.deleteNotificationById = async (req, res) => {
     try {
-        const notification = await Notification.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
+        const notification = await Notification.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true, seen: true } }, { new: true });
         if (!notification) {
             return res.status(404).json({ status: 'fail', message: 'No notification found with that ID' });
         }

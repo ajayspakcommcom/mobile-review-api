@@ -25,7 +25,7 @@ exports.getNotificationById = async (req, res) => {
 
 exports.getNotificationByFollowerId = async (req, res) => {
     try {
-        const notification = await Notification.find({ user_id: req.params.user_id });
+        const notification = await Notification.find({ user_id: req.params.user_id, seen: false, is_deleted: false });
         if (!notification) {
             return res.status(404).json({ status: 'fail', message: 'No notification found with that ID' });
         }

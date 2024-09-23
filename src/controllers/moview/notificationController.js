@@ -89,7 +89,7 @@ exports.deleteNotificationById = async (req, res) => {
         if (!notification) {
             return res.status(404).json({ status: 'fail', message: 'No notification found with that ID' });
         }
-        res.status(204).json({ status: 'success', data: null, message: 'notification deleted successfully' });
+        res.status(200).json({ status: 'success', data: null, message: 'notification deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the notification.' });
     }

@@ -24,7 +24,9 @@ exports.getReviewById = async (req, res) => {
 exports.createReview = async (req, res) => {
     try {
         const newReview = await Review.create(req.body);
-        res.status(201).json({ status: 'success', data: { notification: newReview } });
+        //res.status(201).json({ status: 'success', data: { notification: newReview } });
+        res.status(200).json({ status: 'success', results: newReview.length, data: { newReview } });
+
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the review.' });
     }

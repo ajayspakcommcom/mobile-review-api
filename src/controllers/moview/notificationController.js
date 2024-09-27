@@ -40,15 +40,14 @@ exports.createNotification = async (req, res) => {
     const { user_id, title, message, type } = req.body;
 
     try {
-        // Find all followers of the given user
+
         const followers = await Follower.find({ userId: user_id }).populate('followerId');
 
-        // Check if there are any followers
         if (!followers.length) {
-            return res.status(404).send('No followers found');
+            //return res.status(404).send('No followers found');
+            return res.status(200).json({ status: 'success', results: 1, data: { notifications: [] } });
         }
 
-        // Create a notification for each follower
         const notifications = followers.map(follower => ({
             user_id: follower.followerId._id,
             title: title,
@@ -59,11 +58,7 @@ exports.createNotification = async (req, res) => {
             expires_at: new Date(new Date().setDate(new Date().getDate() + 7)) // Expires in 7 days
         }));
 
-        // Save the notifications
-        //await Notification.insertMany(notifications);
         const insertedNotifications = await Notification.insertMany(notifications);
-        //console.log('insertedNotifications', insertedNotifications);
-        //res.status(200).send('Notifications sent to followers');
         res.status(200).json({ status: 'success', results: insertedNotifications.length, data: { notifications: insertedNotifications } });
     } catch (error) {
         console.error('Error sending notifications:', error);

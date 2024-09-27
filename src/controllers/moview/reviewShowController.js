@@ -21,14 +21,35 @@ exports.getReviewById = async (req, res) => {
     }
 };
 
+// exports.createReview = async (req, res) => {
+//     try {
+//         const newReview = await ReviewShow.create(req.body);
+//         res.status(201).json({ status: 'success', data: { notification: newReview } });
+//     } catch (error) {
+//         return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the review.' });
+//     }
+// };
+
 exports.createReview = async (req, res) => {
     try {
         const newReview = await ReviewShow.create(req.body);
-        res.status(201).json({ status: 'success', data: { notification: newReview } });
+        const fullReview = await ReviewShow.findById(newReview._id);
+        const reviews = await ReviewShow
+            .findById(fullReview._id)
+            .populate('user', 'firstname')
+            .sort({ created_at: -1 });
+
+        if (reviews.length === 0) {
+            return res.status(404).json({ message: 'No reviews found for this movie' });
+        }
+        res.status(200).json({ status: 'success', results: newReview.length, data: { reviews } });
+        //res.status(201).json({ status: 'success', data: { notification: newReview } });
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the review.' });
     }
 };
+
+
 
 exports.updateReviewById = async (req, res) => {
     try {

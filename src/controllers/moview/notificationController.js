@@ -60,9 +60,11 @@ exports.createNotification = async (req, res) => {
         }));
 
         // Save the notifications
-        await Notification.insertMany(notifications);
+        //await Notification.insertMany(notifications);
+        const insertedNotifications = await Notification.insertMany(notifications);
+        //console.log('insertedNotifications', insertedNotifications);
         //res.status(200).send('Notifications sent to followers');
-        res.status(200).json({ status: 'success', results: notifications.length, data: { notifications } });
+        res.status(200).json({ status: 'success', results: insertedNotifications.length, data: { insertedNotifications } });
     } catch (error) {
         console.error('Error sending notifications:', error);
         res.status(500).send('Internal server error');

@@ -36,7 +36,47 @@ exports.addFollower = async (req, res) => {
         const newFollowing = new Following({ userId: followerId, followingId: userId });
         await newFollowing.save();
 
-        return res.status(200).json({ status: 'success', message: 'Follower added successfully' });
+        console.clear();
+
+        console.log('newFollower', newFollower);
+        console.log('');
+        console.log('newFollowing', newFollowing);
+        console.log('');
+
+        console.log('userId', newFollower.userId.toString());
+        console.log('followerId', newFollower.followerId.toString());
+
+
+        const followerRecords = await Follower.find({ userId: followerId }).populate('followerId');
+        const followingRecords = await Following.find({ userId: followerId }).populate('followingId');
+
+        const followingIds = followingRecords.map(item => item.followingId._id.toString());
+
+        const resultData = followerRecords.map((item) => {
+            const following = followingIds.includes(item.followerId._id.toString());
+            return {
+                ...item._doc,
+                isFollowing: following ? true : false
+            }
+        });
+
+        if (resultData.length) {
+            return res.status(200).json({ status: 'success', message: 'Follower added successfully', data: resultData[0] });
+        }
+        else {
+            return res.status(200).json({
+                status: 'success', message: 'Follower added successfully',
+                data: {
+                    "_id": "",
+                    "userId": "",
+                    "followerId": {},
+                    "createdAt": "2024-09-28T07:05:00.498Z",
+                    "__v": 0,
+                    "isFollowing": false
+                }
+            });
+        }
+
     } catch (error) {
         return res.status(500).json({ status: 'error', message: error.message });
     }

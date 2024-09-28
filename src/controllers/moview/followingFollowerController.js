@@ -199,7 +199,7 @@ exports.findFollowerByUserId = async (req, res) => {
         });
 
         if (!resultData.length) {
-            return res.status(404).json({ error: 'No records found for the specified Follower ID' });
+            return res.status(404).json({ status: 'success', data: null, error: 'No records found for the specified Follower ID' });
         }
 
         return res.status(200).json({ status: 'success', data: resultData });

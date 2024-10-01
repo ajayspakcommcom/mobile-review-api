@@ -52,19 +52,13 @@ exports.addFollower = async (req, res) => {
             return res.status(200).json({ status: 'success', message: 'Follower added successfully', data: resultData[0] });
         }
         else {
-
-            console.log('newFollowing', newFollowing);
-            console.log('newFollowing', newFollowing._id.toString());
-
             const user = await User.findById(newFollowing.followingId.toString());
-            console.log('user', user);
-
             const newRespObj = {
-                "_id": newFollowing._id.toString(),
-                "userId": newFollowing.userId.toString(),
-                //"followerId": user,
-                "createdAt": newFollowing.createdAt.toString(),
-                "__v": newFollowing.__v,
+                _id: newFollowing._id.toString(),
+                userId: newFollowing.userId.toString(),
+                followerId: user.toObject(),
+                createdAt: newFollowing.createdAt.toString(),
+                __v: newFollowing.__v,
             }
 
             return res.status(200).json({
@@ -73,7 +67,7 @@ exports.addFollower = async (req, res) => {
                 data: {
                     "_id": newRespObj._id,
                     "userId": newRespObj.userId,
-                    "followerId": { ...user.toObject() },
+                    "followerId": { ...newRespObj.followerId },
                     "createdAt": newRespObj.createdAt,
                     "__v": newRespObj.__v,
                     "isFollowing": false

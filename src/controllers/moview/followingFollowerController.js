@@ -25,7 +25,8 @@ exports.addFollower = async (req, res) => {
         const existingFollowing = await Following.findOne({ userId: followerId, followingId: userId });
 
         if (existingFollower || existingFollowing) {
-            return res.status(400).json({ error: 'User is already followed by this follower' });
+            //return res.status(400).json({ error: 'User is already followed by this follower' });
+            return res.status(200).json({ status: 'success', message: 'User already following this user', data: [] });
         }
 
         // Add follower relationship
@@ -51,14 +52,30 @@ exports.addFollower = async (req, res) => {
             return res.status(200).json({ status: 'success', message: 'Follower added successfully', data: resultData[0] });
         }
         else {
+
+            console.log('newFollowing', newFollowing);
+            console.log('newFollowing', newFollowing._id.toString());
+
+            const user = await User.findById(newFollowing.followingId.toString());
+            console.log('user', user);
+
+            const newRespObj = {
+                "_id": newFollowing._id.toString(),
+                "userId": newFollowing.userId.toString(),
+                //"followerId": user,
+                "createdAt": newFollowing.createdAt.toString(),
+                "__v": newFollowing.__v,
+            }
+
             return res.status(200).json({
-                status: 'success', message: 'Follower added successfully',
+                status: 'success',
+                message: 'Follower added successfully',
                 data: {
-                    "_id": "",
-                    "userId": "",
-                    "followerId": {},
-                    "createdAt": "2024-09-28T07:05:00.498Z",
-                    "__v": 0,
+                    "_id": newRespObj._id,
+                    "userId": newRespObj.userId,
+                    "followerId": { ...user.toObject() },
+                    "createdAt": newRespObj.createdAt,
+                    "__v": newRespObj.__v,
                     "isFollowing": false
                 }
             });
@@ -199,7 +216,7 @@ exports.findFollowerByUserId = async (req, res) => {
         });
 
         if (!resultData.length) {
-            return res.status(404).json({ status: 'success', data: [], error: 'No records found for the specified Follower ID' });
+            return res.status(200).json({ status: 'success', data: [], error: 'No records found for the specified Follower ID' });
         }
 
         return res.status(200).json({ status: 'success', data: resultData });

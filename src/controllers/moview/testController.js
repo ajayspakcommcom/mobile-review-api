@@ -27,7 +27,8 @@ exports.createTest = async (req, res) => {
     try {
         const newTest = new Test(req.body);
         const savedTest = await newTest.save();
-        res.status(201).json(savedTest);
+
+        res.status(201).json({ status: 'success', data: savedTest, error: null, msg: null });
     } catch (err) {
         res.status(400).json({ message: 'Error creating test', error: err });
     }

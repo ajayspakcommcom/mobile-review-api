@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Following = require('../../models/moview/followingModel');
 const User = require('../../models/moview/userModel');
 const Follower = require('../../models/moview/followerModel');
@@ -103,7 +104,7 @@ exports.removeFollower = async (req, res) => {
         const followingRelation = await Following.findOne({ userId: followerId, followingId: userId });
 
         if (!followerRelation || !followingRelation) {
-            return res.status(400).json({ error: 'Follower relationship does not exist' });
+            return res.status(200).json({ error: 'Follower relationship does not exist' });
         }
 
         // Remove the follower relationship
@@ -112,8 +113,28 @@ exports.removeFollower = async (req, res) => {
         // Remove the following relationship
         await Following.deleteOne({ userId: followerId, followingId: userId });
 
-        return res.status(200).json({ status: 'success', message: 'Follower removed successfully' });
 
+
+        const newRespObj = {
+            _id: new mongoose.Types.ObjectId(),
+            userId: followerId.toString(),
+            followerId: user.toObject(),
+            createdAt: new Date().toISOString(),
+            __v: 0,
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Follower removed successfully',
+            data: {
+                "_id": newRespObj._id,
+                "userId": newRespObj.userId,
+                "followerId": { ...newRespObj.followerId },
+                "createdAt": newRespObj.createdAt,
+                "__v": newRespObj.__v,
+                "isFollowing": false
+            }
+        });
 
     } catch (error) {
         console.error('Error removing follower:', error);

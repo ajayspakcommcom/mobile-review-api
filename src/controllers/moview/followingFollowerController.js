@@ -174,8 +174,6 @@ exports.findFollowingByUserId = async (req, res) => {
             }
         });
 
-        //console.log('resultData', resultData);
-
         if (!resultData.length) {
             return res.status(404).json({ error: 'No records found for the specified following ID' });
         }

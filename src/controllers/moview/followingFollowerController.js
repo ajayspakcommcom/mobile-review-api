@@ -49,7 +49,8 @@ exports.addFollower = async (req, res) => {
         });
 
         if (resultData.length) {
-            return res.status(200).json({ status: 'success', message: 'Follower added successfully', data: resultData[0] });
+            const respData = resultData.find(item => item.followerId._id.toString() === userId.toString())
+            return res.status(200).json({ status: 'success', message: 'Old Follower added successfully', data: respData });
         }
         else {
             const user = await User.findById(newFollowing.followingId.toString());
@@ -63,7 +64,7 @@ exports.addFollower = async (req, res) => {
 
             return res.status(200).json({
                 status: 'success',
-                message: 'Follower added successfully',
+                message: 'New Follower added successfully',
                 data: {
                     "_id": newRespObj._id,
                     "userId": newRespObj.userId,

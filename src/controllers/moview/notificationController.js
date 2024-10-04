@@ -29,7 +29,7 @@ exports.getNotificationByFollowerId = async (req, res) => {
         if (!notifications) {
             return res.status(404).json({ status: 'fail', message: 'No notification found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { notifications } });
+        res.status(200).json({ status: 'success', length: notifications.length, data: { notifications } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve the notification.' });
     }

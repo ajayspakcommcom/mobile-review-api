@@ -10,6 +10,22 @@ exports.getAllShows = async (req, res) => {
     }
 };
 
+exports.searchShows = async (req, res) => {
+    const { keyword } = req.body;
+
+    if (!keyword) {
+        return res.status(400).json({ status: 'error', message: 'Please provide a search keyword.' });
+    }
+
+    try {
+        // Use a case-insensitive regex to find movies with the keyword in title or description
+        const shows = await Show.find({ $or: [{ title: { $regex: keyword, $options: 'i' } }] });
+        res.status(200).json({ status: 'success', results: shows.length, data: { shows } });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error: Cannot search shows.' });
+    }
+};
+
 exports.getShowById = async (req, res) => {
     try {
         const show = await Show.findById(req.params.id);

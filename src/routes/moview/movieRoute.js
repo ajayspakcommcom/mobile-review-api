@@ -4,6 +4,8 @@ const movieController = require('../../controllers/moview/movieController');
 
 router.get('/movie', movieController.getAllMovies);
 
+router.post('/movie/search', movieController.searchMovies);
+
 router.get('/movie/:id', movieController.getMovieById);
 
 router.post('/movie', movieController.createMovie);

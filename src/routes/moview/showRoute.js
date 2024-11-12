@@ -4,7 +4,7 @@ const showController = require('../../controllers/moview/showController');
 
 router.get('/show', showController.getAllShows);
 
-router.post('/show/search', showController.searchShows);
+//router.post('/show/search', showController.searchShows);
 
 router.get('/show/:id', showController.getShowById);
 

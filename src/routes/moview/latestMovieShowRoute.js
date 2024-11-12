@@ -4,6 +4,8 @@ const latestMovieShowController = require('../../controllers/moview/latestMovieS
 
 router.get('/latest/movie-show', latestMovieShowController.getAllMoviesShows);
 
+router.post('/latest/movie-show/search', latestMovieShowController.getAllMoviesShowsByKeyword);
+
 // router.get('/movie/:id', movieController.getMovieById);
 
 // router.post('/movie', movieController.createMovie);

@@ -69,8 +69,8 @@ exports.getAllMoviesShowsByKeyword = async (req, res) => {
         // Send response with results
         res.status(200).json({ 
             status: 'success', 
+            length: { count: latestMovies.length + latestShows.length } ,
             data: [...latestMovies, ...latestShows], 
-            length: { count: latestMovies.length + latestShows.length } 
         });
     } catch (error) {
         res.status(500).json({ 

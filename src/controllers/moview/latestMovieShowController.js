@@ -28,10 +28,8 @@ exports.getAllMoviesShows = async (req, res) => {
 
 exports.getAllMoviesShowsByKeyword = async (req, res) => {
     try {
-        // Get query parameters for search (e.g., title, genre, etc.)
-        const { title, genre, release_date } = req.body;
 
-        // Build filter object for movies and shows based on query parameters
+        const { title, genre, release_date } = req.body;
         let movieFilter = { is_deleted: false };
         let showFilter = { is_deleted: false };
 
@@ -51,27 +49,16 @@ exports.getAllMoviesShowsByKeyword = async (req, res) => {
             showFilter.release_date = release_date;
         }
 
-        // Fetch filtered movies and shows from the database
-        const movies = await Movie.find(movieFilter).sort({ release_date: -1 });
-        const shows = await Show.find(showFilter).sort({ release_date: -1 });
+        if(movieFilter.title && showFilter.title) {                
+                const movies = await Movie.find(movieFilter).sort({ release_date: -1 });
+                const shows = await Show.find(showFilter).sort({ release_date: -1 });
+                const latestMovies = movies.map(movie => ({...movie._doc,isMovie: true}));
+                const latestShows = shows.map(show => ({...show._doc,isShow: true}));
+                res.status(200).json({ status: 'success', length: { count: latestMovies.length + latestShows.length } ,data: [...latestMovies, ...latestShows], });
+        } else {
+            res.status(200).json({status: 'Success', length: {count:0}, data: []});
+        }
 
-        // Map results to include additional properties
-        const latestMovies = movies.map(movie => ({
-            ...movie._doc,
-            isMovie: true
-        }));
-
-        const latestShows = shows.map(show => ({
-            ...show._doc,
-            isShow: true
-        }));
-
-        // Send response with results
-        res.status(200).json({ 
-            status: 'success', 
-            length: { count: latestMovies.length + latestShows.length } ,
-            data: [...latestMovies, ...latestShows], 
-        });
     } catch (error) {
         res.status(500).json({ 
             status: 'error', 

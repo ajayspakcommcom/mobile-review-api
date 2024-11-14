@@ -40,6 +40,9 @@ const showSchema = new Schema({
     is_deleted: {
         type: Boolean,
         default: false
+    },
+    language: {
+        type: String        
     }
 });
 

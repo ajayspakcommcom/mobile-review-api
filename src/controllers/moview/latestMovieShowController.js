@@ -68,6 +68,24 @@ exports.getAllMoviesShowsByKeyword = async (req, res) => {
 };
 
 
+exports.getAllMoviesShowsFiltered = async (req, res) => {
+    try {
+
+        const filteredArray = ["bengali", "english", "manish"];
+        const movies = await Movie.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
+        const shows = await Show.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
+        const latestMovies = movies.map(movie => ({...movie._doc,isMovie: true}));
+        const latestShows = shows.map(show => ({...show._doc,isShow: true}));
+
+        console.log('movies', movies.length);
+        console.log('shows', shows.length);
+
+        res.status(200).json({ status: 'success', data: [...latestMovies, ...latestShows], length: { count: latestMovies.length + latestShows.length } });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve Latest movies and shows.' });
+    }
+};
+
 
 // exports.getShowById = async (req, res) => {
 //     try {

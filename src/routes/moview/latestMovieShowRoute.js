@@ -6,6 +6,8 @@ router.get('/latest/movie-show', latestMovieShowController.getAllMoviesShows);
 
 router.post('/latest/movie-show/search', latestMovieShowController.getAllMoviesShowsByKeyword);
 
+router.post('/latest/movie-show/filtered', latestMovieShowController.getAllMoviesShowsFiltered);
+
 // router.get('/movie/:id', movieController.getMovieById);
 
 // router.post('/movie', movieController.createMovie);

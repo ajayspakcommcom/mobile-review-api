@@ -71,7 +71,7 @@ exports.getAllMoviesShowsByKeyword = async (req, res) => {
 exports.getAllMoviesShowsFiltered = async (req, res) => {
     try {
 
-        const filteredArray = ["bengali", "english", "manish"];
+        const filteredArray = req.body.filterData // ["bengali", "english", "manish"];
         const movies = await Movie.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
         const shows = await Show.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
         const latestMovies = movies.map(movie => ({...movie._doc,isMovie: true}));

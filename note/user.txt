@@ -1,0 +1,5 @@
+
+type: Post
+url: http://localhost:3000/api/login
+body: {"username":"omkar@gmail.com","password":"12345"}
+

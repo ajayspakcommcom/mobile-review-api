@@ -43,13 +43,13 @@ exports.createNotification = async (req, res) => {
 
         const followers = await Follower.find({ userId: user_id }).populate('followerId');
 
-        if (!followers.length) {
-            //return res.status(404).send('No followers found');
+        if (!followers.length) {            
             return res.status(200).json({ status: 'success', results: 1, data: { notifications: [] } });
         }
 
         const notifications = followers.map(follower => ({
             user_id: follower.followerId._id,
+            movie_id: 'fsdfs',
             title: title,
             message: message,
             type: type,

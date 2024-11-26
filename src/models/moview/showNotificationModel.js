@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const User = require('./userModel');
+const Show = require('./showModel');
 
 const showNotificationSchema = new Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true
+    },
+    show_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Show',
         required: true
     },
     title: {

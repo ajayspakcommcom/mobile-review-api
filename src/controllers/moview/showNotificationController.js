@@ -51,6 +51,7 @@ exports.createNotification = async (req, res) => {
         // Create a notification for each follower
         const showNotifications = followers.map(follower => ({
             user_id: follower.followerId._id,
+            show_id: 'fsdfsd',
             title: title,
             message: message,
             type: "review",

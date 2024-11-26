@@ -37,7 +37,7 @@ exports.getNotificationByFollowerId = async (req, res) => {
 
 exports.createNotification = async (req, res) => {
 
-    const { user_id, title, message } = req.body;
+    const { user_id, title, message, show_id, type } = req.body;
 
     try {
         // Find all followers of the given user
@@ -51,10 +51,10 @@ exports.createNotification = async (req, res) => {
         // Create a notification for each follower
         const showNotifications = followers.map(follower => ({
             user_id: follower.followerId._id,
-            show_id: 'fsdfsd',
+            show_id: show_id,
             title: title,
             message: message,
-            type: "review",
+            type: type,
             seen: false,
             created_at: new Date(),
             expires_at: new Date(new Date().setDate(new Date().getDate() + 7)) // Expires in 7 days

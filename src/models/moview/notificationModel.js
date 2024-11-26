@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const User = require('./userModel');
 const Movie = require('./movieModel');
+const Show = require('./showModel');
 
 const notificationSchema = new Schema({
     user_id: {
@@ -9,9 +10,8 @@ const notificationSchema = new Schema({
         ref: 'User',
         required: true
     },
-    movie_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Movie',
+    movie_show_id: {
+        type: mongoose.Schema.Types.ObjectId,        
         required: true
     },
     title: {

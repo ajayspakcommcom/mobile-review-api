@@ -37,7 +37,7 @@ exports.getNotificationByFollowerId = async (req, res) => {
 
 exports.createNotification = async (req, res) => {
 
-    const { user_id, title, message, type, movie_id} = req.body;
+    const { user_id, title, message, type, movie_show_id} = req.body;
 
     try {
 
@@ -49,7 +49,7 @@ exports.createNotification = async (req, res) => {
 
         const notifications = followers.map(follower => ({
             user_id: follower.followerId._id,
-            movie_id: movie_id,
+            movie_show_id: movie_show_id,
             title: title,
             message: message,
             type: type,

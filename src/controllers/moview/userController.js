@@ -82,15 +82,15 @@ exports.updateUserById = async (req, res) => {
     }
 };
 
-exports.deleteUserById = async (req, res) => {
+exports.deleteUserById = async (req, res) => {    
     try {
         const user = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!user) {
             return res.status(404).json({ status: 'fail', message: 'No user found with that ID' });
         }
-        res.status(204).json({ status: 'success', data: null, message: 'User deleted successfully' });
+        return res.status(204).json({ status: 'success', data: null, message: 'User deleted successfully' });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the user.' });
+        return res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the user.' });
     }
 };
 

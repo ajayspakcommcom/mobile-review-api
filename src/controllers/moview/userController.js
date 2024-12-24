@@ -88,7 +88,7 @@ exports.deleteUserById = async (req, res) => {
         if (!user) {
             return res.status(404).json({ status: 'fail', message: 'No user found with that ID' });
         }
-        return res.status(204).json({ status: 'success', data: null, message: 'User deleted successfully' });
+        return res.status(200).json({ status: 'success', data: null, message: 'User deleted successfully' });
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the user.' });
     }

@@ -44,7 +44,7 @@ exports.createMovie = async (req, res) => {
         res.status(201).json({ status: 'success', data: { movie: newMovie } });
     } catch (error) {
         console.log('Error : ', error);
-        return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the movie.' });
+        return res.status(500).json({ status: 'error', message: `${error} Server error: Cannot create the movie.` });
     }
 };
 
@@ -66,7 +66,7 @@ exports.deleteMovieById = async (req, res) => {
         if (!movie) {
             return res.status(404).json({ status: 'fail', message: 'No movie found with that ID' });
         }
-        res.status(204).json({ status: 'success', data: null, message: 'movie deleted successfully' });
+        return res.status(200).json({ status: 'success', data: null, message: 'movie deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the movie.' });
     }

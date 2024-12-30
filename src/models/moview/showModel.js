@@ -34,6 +34,24 @@ const showSchema = new Schema({
         type: String,
         required: true
     },
+    poster_url: {
+        type: String,
+        required: true
+    },
+    
+    banner_url: {
+        type: String
+    },
+
+    director: {
+        type: String
+    },
+    writer: {
+        type: String
+    },
+    runtime: {
+        type: String
+    },
     test_poster_url: {
         type: String
     },

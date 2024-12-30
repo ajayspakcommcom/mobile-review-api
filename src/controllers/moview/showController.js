@@ -66,7 +66,7 @@ exports.deleteShowById = async (req, res) => {
         if (!show) {
             return res.status(404).json({ status: 'fail', message: 'No show found with that ID' });
         }
-        res.status(204).json({ status: 'success', data: null, message: 'show deleted successfully' });
+        return res.status(200).json({ status: 'success', data: null, message: 'show deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the show.' });
     }

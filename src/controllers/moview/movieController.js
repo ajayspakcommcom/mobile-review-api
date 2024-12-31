@@ -54,7 +54,7 @@ exports.updateMovieById = async (req, res) => {
         if (!movie) {
             return res.status(404).json({ status: 'fail', message: 'No movie found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { movie } });
+        return res.status(200).json({ status: 'success', data: { movie }, message: 'movie deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot update the movie.' });
     }

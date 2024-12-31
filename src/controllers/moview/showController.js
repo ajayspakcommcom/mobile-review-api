@@ -53,8 +53,8 @@ exports.updateShowById = async (req, res) => {
         const show = await Show.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!show) {
             return res.status(404).json({ status: 'fail', message: 'No show found with that ID' });
-        }
-        res.status(200).json({ status: 'success', data: { show } });
+        }        
+        return res.status(200).json({ status: 'success', data: { show }, message: 'show deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot update the show.' });
     }

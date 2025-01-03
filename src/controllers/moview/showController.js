@@ -3,7 +3,8 @@ const Show = require('../../models/moview/showModel');
 
 exports.getAllShows = async (req, res) => {
     try {
-        const shows = await Show.find({});
+        // const shows = await Show.find({});
+        const shows = await Show.find({}).sort({ _id: -1 }); // Sort by `_id` in descending order
         res.status(200).json({ status: 'success', results: shows.length, data: { shows } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve shows.' });

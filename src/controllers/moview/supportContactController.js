@@ -11,13 +11,14 @@ exports.getAllSupportContacts = async (req, res) => {
 };
 
 exports.getSupportContactById = async (req, res) => {
+    console.log('Ram...');
     try {
-        const supportContact = await SupportContact.findById(req.params.id);
+        const supportContact = await SupportContact.findById(req.params.id);        
         if (!supportContact) {
             return res.status(404).json({ status: 'fail', message: 'No Support Contact found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { notification } });
-    } catch (error) {
+        res.status(200).json({ status: 'success', data: { supportContact } });
+    } catch (error) {                
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve the Support Contact.' });
     }
 };
@@ -55,7 +56,7 @@ exports.updateSupportContactById = async (req, res) => {
         if (!supportContact) {
             return res.status(404).json({ status: 'fail', message: 'No Support Contact found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { notification } });
+        res.status(200).json({ status: 'success', data: { supportContact } });
     } catch (error) {                
         res.status(500).json({ status: 'error', message: 'Server error: Cannot update the Support Contact.' });
     }
@@ -67,7 +68,7 @@ exports.deleteSupportContactById = async (req, res) => {
         if (!supportContact) {
             return res.status(404).json({ status: 'fail', message: 'No Support Contact found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { _id: notification._id }, message: 'Support Contact deleted successfully' });
+        res.status(200).json({ status: 'success', data: { _id: supportContact._id }, message: 'Support Contact deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the Support Contact.' });
     }

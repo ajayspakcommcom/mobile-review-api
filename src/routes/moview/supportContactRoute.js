@@ -1,19 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const supportContactController = require('../../controllers/moview/notificationController');
+const supportContactController = require('../../controllers/moview/supportContactController');
 
-router.get('/notification', notificationController.getAllNotifications);
+router.get('/supportContact', supportContactController.getAllSupportContacts);
 
-router.get('/notification/:id', notificationController.getNotificationById);
+router.get('/supportContact/:id', supportContactController.getSupportContactById);
 
-router.get('/notification/follower/:user_id', notificationController.getNotificationByFollowerId);
+router.post('/supportContact', supportContactController.createSupportContact);
 
-router.post('/notification', notificationController.createNotification);
+router.put('/supportContact/:id', supportContactController.updateSupportContactById);
 
-router.put('/notification/:id', notificationController.updateNotificationById);
-
-router.delete('/notification/:id', notificationController.deleteNotificationById);
+router.delete('/supportContact/:id', supportContactController.deleteSupportContactById);
 
 module.exports = router;
 

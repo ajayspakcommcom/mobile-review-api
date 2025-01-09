@@ -1,16 +1,16 @@
 const Movie = require('../../models/moview/movieModel');
 
-exports.getAllMovies = async (req, res) => {
+exports.getAllMovies = async(req, res) => {
     try {
         // const movies = await Movie.find({});
-        const movies = await Movie.find({}).sort({ _id: -1 }); // Sort by `_id` in descending order
+        const movies = await Movie.find({ is_deleted: false }).sort({ _id: -1 }); // Sort by `_id` in descending order
         res.status(200).json({ status: 'success', results: movies.length, data: { movies } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve movies.' });
     }
 };
 
-exports.searchMovies = async (req, res) => {
+exports.searchMovies = async(req, res) => {
     const { keyword } = req.body;
 
     if (!keyword) {
@@ -27,7 +27,7 @@ exports.searchMovies = async (req, res) => {
 };
 
 
-exports.getMovieById = async (req, res) => {
+exports.getMovieById = async(req, res) => {
     try {
         const movie = await Movie.findById(req.params.id);
         if (!movie) {
@@ -39,7 +39,7 @@ exports.getMovieById = async (req, res) => {
     }
 };
 
-exports.createMovie = async (req, res) => {
+exports.createMovie = async(req, res) => {
     try {
         const newMovie = await Movie.create(req.body);
         res.status(201).json({ status: 'success', data: { movie: newMovie } });
@@ -49,7 +49,7 @@ exports.createMovie = async (req, res) => {
     }
 };
 
-exports.updateMovieById = async (req, res) => {
+exports.updateMovieById = async(req, res) => {
     try {
         const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!movie) {
@@ -61,7 +61,7 @@ exports.updateMovieById = async (req, res) => {
     }
 };
 
-exports.deleteMovieById = async (req, res) => {
+exports.deleteMovieById = async(req, res) => {
     try {
         const movie = await Movie.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!movie) {

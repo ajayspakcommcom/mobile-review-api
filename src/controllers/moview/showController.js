@@ -1,17 +1,16 @@
-
 const Show = require('../../models/moview/showModel');
 
-exports.getAllShows = async (req, res) => {
+exports.getAllShows = async(req, res) => {
     try {
         // const shows = await Show.find({});
-        const shows = await Show.find({}).sort({ _id: -1 }); // Sort by `_id` in descending order
+        const shows = await Show.find({ is_deleted: false }).sort({ _id: -1 }); // Sort by `_id` in descending order
         res.status(200).json({ status: 'success', results: shows.length, data: { shows } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve shows.' });
     }
 };
 
-exports.searchShows = async (req, res) => {
+exports.searchShows = async(req, res) => {
     const { keyword } = req.body;
 
     if (!keyword) {
@@ -27,7 +26,7 @@ exports.searchShows = async (req, res) => {
     }
 };
 
-exports.getShowById = async (req, res) => {
+exports.getShowById = async(req, res) => {
     try {
         const show = await Show.findById(req.params.id);
         if (!show) {
@@ -39,7 +38,7 @@ exports.getShowById = async (req, res) => {
     }
 };
 
-exports.createShow = async (req, res) => {
+exports.createShow = async(req, res) => {
     try {
         const newShow = await Show.create(req.body);
         res.status(201).json({ status: 'success', data: { show: newShow } });
@@ -49,19 +48,19 @@ exports.createShow = async (req, res) => {
     }
 };
 
-exports.updateShowById = async (req, res) => {
+exports.updateShowById = async(req, res) => {
     try {
         const show = await Show.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!show) {
             return res.status(404).json({ status: 'fail', message: 'No show found with that ID' });
-        }        
+        }
         return res.status(200).json({ status: 'success', data: { show }, message: 'show deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot update the show.' });
     }
 };
 
-exports.deleteShowById = async (req, res) => {
+exports.deleteShowById = async(req, res) => {
     try {
         const show = await Show.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!show) {

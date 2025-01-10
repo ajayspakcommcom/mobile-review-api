@@ -55,7 +55,7 @@ exports.deleteMovieReportReviewById = async(req, res) => {
 };
 
 
-// exports.getReviewsByShow = async(req, res) => {
+
 //     try {
 //         const showId = req.params.showId;
 

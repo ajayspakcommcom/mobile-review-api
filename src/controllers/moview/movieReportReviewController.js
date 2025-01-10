@@ -15,7 +15,7 @@ exports.getMovieReportReviewById = async(req, res) => {
         if (!data) {
             return res.status(404).json({ status: 'fail', message: 'No Movie Report Review found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: { review } });
+        res.status(200).json({ status: 'success', data: { data } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve the Movie Report Review.' });
     }
@@ -24,7 +24,7 @@ exports.getMovieReportReviewById = async(req, res) => {
 exports.createMovieReportReview = async(req, res) => {
     try {
         const newData = await MovieReportReview.create(req.body);
-        res.status(201).json({ status: 'success', data: { reviewData: newData } });
+        res.status(201).json({ status: 'success', data: { newData: newData } });
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot create the Movie Report Review.' });
     }
@@ -44,11 +44,11 @@ exports.updateMovieReportReviewById = async(req, res) => {
 
 exports.deleteMovieReportReviewById = async(req, res) => {
     try {
-        const data = await MovieReportReview.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
+        const data = await MovieReportReview.findByIdAndDelete(req.params.id);
         if (!data) {
             return res.status(404).json({ status: 'fail', message: 'No Movie Report Review found with that ID' });
         }
-        res.status(204).json({ status: 'success', data: null, message: 'Movie Report Review deleted successfully' });
+        res.status(200).json({ status: 'success', data: null, message: 'Movie Report Review deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the Movie Report Review.' });
     }

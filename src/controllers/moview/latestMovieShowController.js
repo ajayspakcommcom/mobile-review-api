@@ -1,14 +1,13 @@
-
 const Show = require('../../models/moview/showModel');
 const Movie = require('../../models/moview/movieModel');
 
-exports.getAllMoviesShows = async (req, res) => {
+exports.getAllMoviesShows = async(req, res) => {
     try {
         const movies = await Movie.find({ is_deleted: false })
-            .sort({ release_date: -1 });
+            .sort({ _id: -1 });
 
         const shows = await Show.find({ is_deleted: false })
-            .sort({ release_date: -1 });
+            .sort({ _id: -1 });
 
         const latestMovies = movies.map(movie => ({
             ...movie._doc,
@@ -26,7 +25,7 @@ exports.getAllMoviesShows = async (req, res) => {
     }
 };
 
-exports.getAllMoviesShowsByKeyword = async (req, res) => {
+exports.getAllMoviesShowsByKeyword = async(req, res) => {
     try {
 
         const { title, genre, release_date } = req.body;
@@ -49,33 +48,33 @@ exports.getAllMoviesShowsByKeyword = async (req, res) => {
             showFilter.release_date = release_date;
         }
 
-        if(movieFilter.title && showFilter.title) {                
-                const movies = await Movie.find(movieFilter).sort({ release_date: -1 });
-                const shows = await Show.find(showFilter).sort({ release_date: -1 });
-                const latestMovies = movies.map(movie => ({...movie._doc,isMovie: true}));
-                const latestShows = shows.map(show => ({...show._doc,isShow: true}));
-                res.status(200).json({ status: 'success', length: { count: latestMovies.length + latestShows.length } ,data: [...latestMovies, ...latestShows], });
+        if (movieFilter.title && showFilter.title) {
+            const movies = await Movie.find(movieFilter).sort({ release_date: -1 });
+            const shows = await Show.find(showFilter).sort({ release_date: -1 });
+            const latestMovies = movies.map(movie => ({...movie._doc, isMovie: true }));
+            const latestShows = shows.map(show => ({...show._doc, isShow: true }));
+            res.status(200).json({ status: 'success', length: { count: latestMovies.length + latestShows.length }, data: [...latestMovies, ...latestShows], });
         } else {
-            res.status(200).json({status: 'Success', length: {count:0}, data: []});
+            res.status(200).json({ status: 'Success', length: { count: 0 }, data: [] });
         }
 
     } catch (error) {
-        res.status(500).json({ 
-            status: 'error', 
-            message: 'Server error: Cannot retrieve movies and shows.' 
+        res.status(500).json({
+            status: 'error',
+            message: 'Server error: Cannot retrieve movies and shows.'
         });
     }
 };
 
 
-exports.getAllMoviesShowsFiltered = async (req, res) => {
+exports.getAllMoviesShowsFiltered = async(req, res) => {
     try {
 
         const filteredArray = req.body.filterData // ["bengali", "english", "manish"];
         const movies = await Movie.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
         const shows = await Show.find({ is_deleted: false, language: { $in: filteredArray.map(lang => new RegExp(`^${lang}$`, "i")) } }).sort({ release_date: -1 });
-        const latestMovies = movies.map(movie => ({...movie._doc,isMovie: true}));
-        const latestShows = shows.map(show => ({...show._doc,isShow: true}));
+        const latestMovies = movies.map(movie => ({...movie._doc, isMovie: true }));
+        const latestShows = shows.map(show => ({...show._doc, isShow: true }));
 
         res.status(200).json({ status: 'success', data: [...latestMovies, ...latestShows], length: { count: latestMovies.length + latestShows.length } });
     } catch (error) {

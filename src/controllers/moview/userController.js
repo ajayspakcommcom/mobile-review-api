@@ -12,7 +12,7 @@ const ShowNotification = require('../../models/moview/showNotificationModel');
 
 
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async(req, res) => {
     try {
         const users = await User.find({});
         res.status(200).json({ status: 'success', results: users.length, data: { users } });
@@ -21,7 +21,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-exports.getUserById = async (req, res) => {
+exports.getUserById = async(req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -33,7 +33,7 @@ exports.getUserById = async (req, res) => {
     }
 };
 
-exports.createUser = async (req, res) => {
+exports.createUser = async(req, res) => {
     try {
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -42,7 +42,7 @@ exports.createUser = async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password_hash: hashedPassword,
-            phone: req.body.phone
+            phone: req.body.phone || '*****'
         });
 
         res.status(201).json({ status: 'success', data: { user: newUser } });
@@ -59,7 +59,7 @@ exports.createUser = async (req, res) => {
     }
 };
 
-exports.updateUserById = async (req, res) => {
+exports.updateUserById = async(req, res) => {
 
 
 
@@ -105,8 +105,8 @@ exports.updateUserById = async (req, res) => {
 //     }
 // };
 
-exports.deleteUserById = async (req, res) => {    
-    try {        
+exports.deleteUserById = async(req, res) => {
+    try {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) {
 
@@ -127,5 +127,3 @@ exports.deleteUserById = async (req, res) => {
         return res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the user.' });
     }
 };
-
-

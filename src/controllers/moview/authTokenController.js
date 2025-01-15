@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 
-exports.loginUser = async (req, res) => {
+exports.loginUser = async(req, res) => {
 
     const { username, email, password } = req.body;
 
@@ -24,11 +24,10 @@ exports.loginUser = async (req, res) => {
 
         console.log('User', user);
 
-        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.status(200).json({ status: 'success', token, userDetail: user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: 'error', message: 'Server error: Cannot authenticate user.' });
     }
 };
-

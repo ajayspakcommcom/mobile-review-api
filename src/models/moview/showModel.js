@@ -49,9 +49,9 @@ const showSchema = new Schema({
     writer: {
         type: String
     },
-    runtime: {
-        type: String
-    },
+    // runtime: {
+    //     type: String
+    // },
     season: {
         type: String
     },

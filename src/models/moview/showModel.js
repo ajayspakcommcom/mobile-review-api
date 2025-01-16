@@ -38,7 +38,7 @@ const showSchema = new Schema({
         type: String,
         required: true
     },
-    
+
     banner_url: {
         type: String
     },
@@ -52,6 +52,12 @@ const showSchema = new Schema({
     runtime: {
         type: String
     },
+    season: {
+        type: String
+    },
+    season_year: {
+        type: String
+    },
     test_poster_url: {
         type: String
     },
@@ -60,7 +66,7 @@ const showSchema = new Schema({
         default: false
     },
     language: {
-        type: String        
+        type: String
     }
 });
 

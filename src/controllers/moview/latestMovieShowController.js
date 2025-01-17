@@ -1,27 +1,98 @@
 const Show = require('../../models/moview/showModel');
 const Movie = require('../../models/moview/movieModel');
+const Review = require('../../models/moview/reviewModel.js');
+
+// exports.getAllMoviesShows = async(req, res) => {
+//     try {
+//         const movies = await Movie.find({ is_deleted: false })
+//             .sort({ _id: -1 });
+
+//         const shows = await Show.find({ is_deleted: false })
+//             .sort({ _id: -1 });
+
+//         const latestMovies = movies.map(movie => ({
+//             ...movie._doc,
+//             isMovie: true
+//         }));
+
+//         const latestShows = shows.map(show => ({
+//             ...show._doc,
+//             isShow: true
+//         }));
+
+//         res.status(200).json({ status: 'success', data: [...latestMovies, ...latestShows], length: { count: latestMovies.length + latestShows.length } });
+//     } catch (error) {
+//         res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve Latest movies and shows.' });
+//     }
+// };
 
 exports.getAllMoviesShows = async(req, res) => {
     try {
-        const movies = await Movie.find({ is_deleted: false })
-            .sort({ _id: -1 });
+        // Aggregate movies with average ratings
+        const moviesWithRatings = await Movie.aggregate([{
+                $match: { is_deleted: false }
+            },
+            {
+                $lookup: {
+                    from: 'reviews',
+                    localField: '_id',
+                    foreignField: 'movie',
+                    as: 'reviews'
+                }
+            },
+            {
+                $addFields: {
+                    averageRating: {
+                        $avg: '$reviews.rating'
+                    }
+                }
+            },
+            {
+                $sort: { averageRating: -1 }
+            }
+        ]);
 
-        const shows = await Show.find({ is_deleted: false })
-            .sort({ _id: -1 });
+        // Aggregate shows with average ratings
+        const showsWithRatings = await Show.aggregate([{
+                $match: { is_deleted: false }
+            },
+            {
+                $lookup: {
+                    from: 'reviews',
+                    localField: '_id',
+                    foreignField: 'show',
+                    as: 'reviews'
+                }
+            },
+            {
+                $addFields: {
+                    averageRating: {
+                        $avg: '$reviews.rating'
+                    }
+                }
+            },
+            {
+                $sort: { averageRating: -1 }
+            }
+        ]);
 
-        const latestMovies = movies.map(movie => ({
-            ...movie._doc,
+        const latestMovies = moviesWithRatings.map(movie => ({
+            ...movie,
             isMovie: true
         }));
 
-        const latestShows = shows.map(show => ({
-            ...show._doc,
+        const latestShows = showsWithRatings.map(show => ({
+            ...show,
             isShow: true
         }));
 
-        res.status(200).json({ status: 'success', data: [...latestMovies, ...latestShows], length: { count: latestMovies.length + latestShows.length } });
+        res.status(200).json({
+            status: 'success',
+            data: [...latestMovies, ...latestShows],
+            length: { count: latestMovies.length + latestShows.length }
+        });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve Latest movies and shows.' });
+        res.status(500).json({ status: 'error', message: 'Server error: Cannot retrieve latest movies and shows.' });
     }
 };
 

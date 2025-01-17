@@ -34,7 +34,7 @@ const movieSchema = new Schema({
         type: String,
         required: true
     },
-    
+
     banner_url: {
         type: String
     },
@@ -48,7 +48,7 @@ const movieSchema = new Schema({
     runtime: {
         type: String
     },
-    
+
     test_poster_url: {
         type: String
     },
@@ -58,7 +58,7 @@ const movieSchema = new Schema({
         default: false
     },
     language: {
-        type: String        
+        type: String
     }
 });
 

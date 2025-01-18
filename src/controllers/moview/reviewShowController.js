@@ -1,6 +1,6 @@
 const ReviewShow = require('../../models/moview/reviewShowModel');
 
-exports.getAllReviews = async (req, res) => {
+exports.getAllReviews = async(req, res) => {
     try {
         const reviews = await ReviewShow.find({});
         res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
@@ -9,7 +9,7 @@ exports.getAllReviews = async (req, res) => {
     }
 };
 
-exports.getReviewById = async (req, res) => {
+exports.getReviewById = async(req, res) => {
     try {
         const review = await ReviewShow.findById(req.params.id);
         if (!review) {
@@ -30,7 +30,7 @@ exports.getReviewById = async (req, res) => {
 //     }
 // };
 
-exports.createReview = async (req, res) => {
+exports.createReview = async(req, res) => {
     try {
         const newReview = await ReviewShow.create(req.body);
         const fullReview = await ReviewShow.findById(newReview._id);
@@ -51,7 +51,7 @@ exports.createReview = async (req, res) => {
 
 
 
-exports.updateReviewById = async (req, res) => {
+exports.updateReviewById = async(req, res) => {
     try {
         const review = await ReviewShow.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!review) {
@@ -63,7 +63,7 @@ exports.updateReviewById = async (req, res) => {
     }
 };
 
-exports.deleteReviewById = async (req, res) => {
+exports.deleteReviewById = async(req, res) => {
     try {
         const review = await ReviewShow.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!review) {
@@ -76,13 +76,13 @@ exports.deleteReviewById = async (req, res) => {
 };
 
 
-exports.getReviewsByShow = async (req, res) => {
+exports.getReviewsByShow = async(req, res) => {
     try {
         const showId = req.params.showId;
 
         const reviews = await ReviewShow
             .find({ show: showId, is_deleted: false })
-            .populate('user', 'firstname')
+            .populate('user', 'firstname', 'photo')
             .sort({ created_at: -1 });
 
         if (reviews.length === 0) {
@@ -95,7 +95,7 @@ exports.getReviewsByShow = async (req, res) => {
     }
 };
 
-exports.getReviewsByUser = async (req, res) => {
+exports.getReviewsByUser = async(req, res) => {
     try {
         const userId = req.params.userId;
 
@@ -122,7 +122,7 @@ exports.getReviewsByUser = async (req, res) => {
     }
 };
 
-exports.getShowRatingById = async (req, res) => {
+exports.getShowRatingById = async(req, res) => {
     try {
 
         const showId = req.params.showId;
@@ -137,5 +137,3 @@ exports.getShowRatingById = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
-
-

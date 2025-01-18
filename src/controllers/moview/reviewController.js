@@ -1,6 +1,6 @@
 const Review = require('../../models/moview/reviewModel');
 
-exports.getAllReviews = async (req, res) => {
+exports.getAllReviews = async(req, res) => {
     try {
         const reviews = await Review.find({});
         res.status(200).json({ status: 'success', results: reviews.length, data: { reviews } });
@@ -9,7 +9,7 @@ exports.getAllReviews = async (req, res) => {
     }
 };
 
-exports.getReviewById = async (req, res) => {
+exports.getReviewById = async(req, res) => {
     try {
         const review = await Review.findById(req.params.id);
         if (!review) {
@@ -32,7 +32,7 @@ exports.getReviewById = async (req, res) => {
 //     }
 // };
 
-exports.createReview = async (req, res) => {
+exports.createReview = async(req, res) => {
     try {
         const newReview = await Review.create(req.body);
         //res.status(200).json({ status: 'success', results: newReview.length, data: { newReview } });
@@ -57,7 +57,7 @@ exports.createReview = async (req, res) => {
     }
 };
 
-exports.updateReviewById = async (req, res) => {
+exports.updateReviewById = async(req, res) => {
     try {
         const review = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!review) {
@@ -69,7 +69,7 @@ exports.updateReviewById = async (req, res) => {
     }
 };
 
-exports.deleteReviewById = async (req, res) => {
+exports.deleteReviewById = async(req, res) => {
     try {
         const review = await Review.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
         if (!review) {
@@ -82,7 +82,7 @@ exports.deleteReviewById = async (req, res) => {
 };
 
 
-exports.getReviewsByMovie = async (req, res) => {
+exports.getReviewsByMovie = async(req, res) => {
     try {
         const movieId = req.params.movieId;
 
@@ -90,7 +90,7 @@ exports.getReviewsByMovie = async (req, res) => {
         //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
         const reviews = await Review
             .find({ movie: movieId, is_deleted: false })
-            .populate('user', 'firstname')
+            .populate('user', 'firstname', 'photo')
             .sort({ created_at: -1 });
 
         if (reviews.length === 0) {
@@ -103,7 +103,7 @@ exports.getReviewsByMovie = async (req, res) => {
     }
 };
 
-exports.getReviewsByUser = async (req, res) => {
+exports.getReviewsByUser = async(req, res) => {
     try {
         const userId = req.params.userId;
 
@@ -129,7 +129,7 @@ exports.getReviewsByUser = async (req, res) => {
     }
 };
 
-exports.getMovieRatingById = async (req, res) => {
+exports.getMovieRatingById = async(req, res) => {
     try {
 
         const movieId = req.params.movieId;
@@ -144,5 +144,3 @@ exports.getMovieRatingById = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
-
-

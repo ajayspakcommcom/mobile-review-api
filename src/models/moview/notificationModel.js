@@ -11,7 +11,7 @@ const notificationSchema = new Schema({
         required: true
     },
     movie_show_id: {
-        type: mongoose.Schema.Types.ObjectId,        
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     title: {

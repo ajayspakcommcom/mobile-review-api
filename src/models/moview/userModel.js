@@ -27,6 +27,10 @@ const userSchema = new Schema({
     biography: {
         type: String
     },
+    photo: {
+        type: String, // This will store the URL or path to the photo
+        default: null
+    },
     created_at: {
         type: Date,
         default: Date.now
@@ -42,7 +46,7 @@ const userSchema = new Schema({
     is_deleted: {
         type: Boolean,
         default: false
-    }
+    },
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

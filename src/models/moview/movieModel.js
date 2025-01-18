@@ -59,7 +59,23 @@ const movieSchema = new Schema({
     },
     language: {
         type: String
-    }
+    },
+    view_count: {
+        type: Number,
+        default: 0
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
+    },
+    deleted_at: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 const Movie = mongoose.models.Movie || mongoose.model('Movie', movieSchema);

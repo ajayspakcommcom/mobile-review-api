@@ -90,7 +90,7 @@ exports.getReviewsByMovie = async(req, res) => {
         //const reviews = await Review.find({ movie: movieId, is_deleted: false }).populate('user', 'name'); // Populate user name, adjust fields as needed
         const reviews = await Review
             .find({ movie: movieId, is_deleted: false })
-            .populate('user', 'firstname', 'photo')
+            .populate('user', 'firstname photo')
             .sort({ created_at: -1 });
 
         if (reviews.length === 0) {

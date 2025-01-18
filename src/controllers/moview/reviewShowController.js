@@ -82,7 +82,7 @@ exports.getReviewsByShow = async(req, res) => {
 
         const reviews = await ReviewShow
             .find({ show: showId, is_deleted: false })
-            .populate('user', 'firstname', 'photo')
+            .populate('user', 'firstname photo')
             .sort({ created_at: -1 });
 
         if (reviews.length === 0) {

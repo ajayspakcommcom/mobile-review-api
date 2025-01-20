@@ -63,17 +63,17 @@ exports.updateReviewById = async(req, res) => {
     }
 };
 
-exports.deleteReviewById = async(req, res) => {
-    try {
-        const review = await ReviewShow.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
-        if (!review) {
-            return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
-        }
-        res.status(204).json({ status: 'success', data: null, message: 'review deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the review.' });
-    }
-};
+// exports.deleteReviewById = async(req, res) => {
+//     try {
+//         const review = await ReviewShow.findOneAndUpdate({ _id: req.params.id }, { $set: { is_deleted: true } }, { new: true });
+//         if (!review) {
+//             return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
+//         }
+//         res.status(204).json({ status: 'success', data: null, message: 'review deleted successfully' });
+//     } catch (error) {
+//         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the review.' });
+//     }
+// };
 
 exports.deleteReviewById = async(req, res) => {
     try {

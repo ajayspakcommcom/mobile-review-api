@@ -72,10 +72,11 @@ exports.updateReviewById = async(req, res) => {
 exports.deleteReviewById = async(req, res) => {
     try {
         const review = await Review.findByIdAndDelete(req.params.id);
+
         if (!review) {
             return res.status(404).json({ status: 'fail', message: 'No review found with that ID' });
         }
-        res.status(200).json({ status: 'success', data: null, message: 'Review deleted successfully' });
+        res.status(200).json({ status: 'success', data: review, message: 'Review deleted successfully' });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: Cannot delete the review.' });
     }

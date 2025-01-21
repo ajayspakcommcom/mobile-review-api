@@ -31,6 +31,14 @@ const userSchema = new Schema({
         type: String, // This will store the URL or path to the photo
         default: null
     },
+    reset_password_token: {
+        type: String,
+        default: null
+    },
+    reset_password_expires: {
+        type: Date,
+        default: null
+    },
     created_at: {
         type: Date,
         default: Date.now

@@ -5,4 +5,7 @@ const authTokenController = require('../../controllers/moview/authTokenControlle
 
 router.post('/login', authTokenController.loginUser);
 
+router.post('/user/forgot-password', authTokenController.forgetPassword);
+router.post('/user/reset-password/:token', authTokenController.resetPassword);
+
 module.exports = router;

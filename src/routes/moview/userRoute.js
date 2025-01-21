@@ -12,4 +12,7 @@ router.put('/user/:id', userController.updateUserById);
 
 router.delete('/user/:id', userController.deleteUserById);
 
+// router.post('/user/forgot-password', userController.forgetPassword);
+// router.post('/user/reset-password/:token', userController.resetPassword);
+
 module.exports = router;

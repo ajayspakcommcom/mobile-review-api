@@ -16,7 +16,7 @@ const userMovieViewSchema = new Schema({
     },
     viewCount: {
         type: Number,
-        default: 1 // Initialize with 1 since a view is logged
+        default: 0 // Initialize with 1 since a view is logged
     },
     lastViewedAt: {
         type: Date,

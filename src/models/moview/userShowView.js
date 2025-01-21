@@ -9,14 +9,14 @@ const userShowViewSchema = new Schema({
         ref: 'User',
         required: true
     },
-    movie: {
+    show: {
         type: Schema.Types.ObjectId,
         ref: 'Show',
         required: true
     },
     viewCount: {
         type: Number,
-        default: 1 // Initialize with 1 since a view is logged
+        default: 0 // Initialize with 1 since a view is logged
     },
     lastViewedAt: {
         type: Date,
@@ -36,5 +36,5 @@ const userShowViewSchema = new Schema({
     },
 });
 
-const userShowView = mongoose.models.userShowView || mongoose.model('userShowView', userShowViewSchema);
-module.exports = userShowView;
+const UserShowView = mongoose.models.UserShowView || mongoose.model('UserShowView', userShowViewSchema);
+module.exports = UserShowView;

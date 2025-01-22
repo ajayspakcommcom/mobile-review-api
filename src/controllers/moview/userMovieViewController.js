@@ -2,7 +2,7 @@ const UserMovieView = require('../../models/moview/userMovieView');
 
 exports.getList = async(req, res) => {
     try {
-        const listData = await UserMovieView.find({});
+        const listData = await UserMovieView.find({ movie: req.params.movieId });
         res.status(200).json({ status: 'success', results: listData.length, data: { listData } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: cannot user movie view.' });

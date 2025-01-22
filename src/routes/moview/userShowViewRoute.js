@@ -3,7 +3,7 @@ const router = express.Router();
 
 const userShowViewController = require('../../controllers/moview/userShowViewController');
 
-router.get('/user-show-view', userShowViewController.getList);
+router.get('/user-show-view/:showId', userShowViewController.getList);
 
 router.get('/user-show-view/:id', userShowViewController.getDataById);
 

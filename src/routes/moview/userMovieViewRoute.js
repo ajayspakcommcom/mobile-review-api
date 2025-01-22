@@ -3,7 +3,7 @@ const router = express.Router();
 
 const userMovieViewController = require('../../controllers/moview/userMovieViewController');
 
-router.get('/user-movie-view', userMovieViewController.getList);
+router.get('/user-movie-view/:movieId', userMovieViewController.getList);
 
 router.get('/user-movie-view/:id', userMovieViewController.getDataById);
 

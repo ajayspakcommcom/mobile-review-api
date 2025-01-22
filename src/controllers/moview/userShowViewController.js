@@ -2,7 +2,7 @@ const UserShowView = require('../../models/moview/userShowView');
 
 exports.getList = async(req, res) => {
     try {
-        const listData = await UserShowView.find({});
+        const listData = await UserShowView.find({ show: req.params.showId });
         res.status(200).json({ status: 'success', results: listData.length, data: { listData } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error: cannot user show view.' });

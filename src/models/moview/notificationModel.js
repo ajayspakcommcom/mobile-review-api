@@ -10,6 +10,11 @@ const notificationSchema = new Schema({
         ref: 'User',
         required: true
     },
+    sender_user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     movie_show_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
